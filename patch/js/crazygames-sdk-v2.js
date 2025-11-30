@@ -7962,7 +7962,7 @@
                             setTimeout((function() {
                               skipBtn && skipBtn.classList.remove("sq-pulse");
                             }), 650);
-                          }), 1e4);
+                          }), 10000);
                         }), minDuration);
 
                         // clicking Skip
