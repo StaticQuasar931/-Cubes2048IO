@@ -7999,6 +7999,36 @@ function t() {
             }));
         };
 
+        t.prototype.showOverlay = function() {
+            this.overlay.style.display = "flex";
+        };
+
+        t.prototype.hideOverlay = function() {
+            this.overlay.style.display = "none";
+            this.overlay.innerHTML = "";
+        };
+
+        t.prototype.createOverlayStyle = function() {
+            var t = {
+                position: "fixed",
+                display: "none",
+                inset: 0,
+                "font-family": "Arial, Helvetica, sans-serif",
+                color: "white",
+                "align-items": "center",
+                "justify-content": "center",
+                "background-color": "rgba(0,0,0,0.75)",
+                "z-index": "10000"
+            };
+            for (var e in t) {
+                this.overlay.style[e] = t[e];
+            }
+        };
+
+        return t;
+    }();
+
+
         e.default = s
       },
       216: function(t, e, n) {
