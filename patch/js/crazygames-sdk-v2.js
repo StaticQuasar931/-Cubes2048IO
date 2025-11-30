@@ -7886,30 +7886,97 @@
         this.requestInProgress = !0,
         this.showOverlay(),
         this.overlay.innerHTML = '\
+<style>\
+@keyframes sqFadeIn {\
+  from { opacity: 0; transform: translateY(6px); }\
+  to { opacity: 1; transform: translateY(0); }\
+}\
+@keyframes sqPulse {\
+  0%, 100% { transform: scale(1); }\
+  50% { transform: scale(1.12); }\
+}\
+.sq-skip-container {\
+  position: absolute;\
+  right: 18px;\
+  bottom: 18px;\
+  opacity: 0;\
+  pointer-events: none;\
+  transform: translateY(4px);\
+}\
+.sq-skip-container.sq-visible {\
+  opacity: 1;\
+  pointer-events: auto;\
+  animation: sqFadeIn 0.35s ease-out;\
+}\
+.sq-skip-container.sq-pulse {\
+  animation: sqPulse 0.6s ease-in-out;\
+}\
+.sq-skip-btn {\
+  padding: 10px 18px;\
+  border-radius: 999px;\
+  border: none;\
+  font-size: 14px;\
+  font-weight: 600;\
+  cursor: pointer;\
+  background: #ffcc33;\
+  color: #222222;\
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);\
+  white-space: nowrap;\
+}\
+.sq-skip-btn:active {\
+  transform: scale(0.97);\
+}\
+</style>\
 <div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;">\
-  <div style="text-align:center;font-family:system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;background:rgba(0,0,0,0.8);color:#ffffff;padding:20px 24px;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,0.45);max-width:420px;width:100%;box-sizing:border-box;">\
-    <div style="font-size:22px;font-weight:700;margin-bottom:6px;">StaticQuasar931 Unblocked Games</div>\
-    <div style="font-size:14px;opacity:0.85;margin-bottom:12px;">Check out more games on the main StaticQuasar931 list</div>\
+  <div style="position:relative;text-align:center;font-family:system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;background:rgba(0,0,0,0.85);color:#ffffff;padding:26px 30px;border-radius:20px;box-shadow:0 12px 36px rgba(0,0,0,0.5);max-width:525px;width:100%;box-sizing:border-box;">\
+    <div style="font-size:28px;font-weight:700;margin-bottom:8px;">StaticQuasar931 Unblocked Games</div>\
+    <div style="font-size:17px;opacity:0.9;margin-bottom:14px;">Check out more unblocked games on the main StaticQuasar931 list</div>\
     <a href="https://sites.google.com/view/staticquasar931/gm3z" target="_blank" rel="noopener noreferrer" \
-       style="display:inline-block;font-size:14px;color:#4fd1ff;text-decoration:underline;word-break:break-all;margin-bottom:18px;">\
+       style="display:inline-block;font-size:17px;color:#4fd1ff;text-decoration:underline;word-break:break-all;margin-bottom:22px;">\
       https://sites.google.com/view/staticquasar931/gm3z\
     </a>\
-    <div style="font-size:13px;opacity:0.9;margin-bottom:8px;">Or scan or click this QR code</div>\
+    <div style="font-size:15px;opacity:0.9;margin-bottom:10px;">Or scan or click this QR code</div>\
     <a href="https://sites.google.com/view/staticquasar931" target="_blank" rel="noopener noreferrer" \
-       style="display:inline-block;padding:8px;border-radius:14px;background:#ffffff;">\
+       style="display:inline-block;padding:10px;border-radius:16px;background:#ffffff;">\
       <img src="https://cdn.jsdelivr.net/gh/StaticQuasar931/Images@main/staticquasar931qrcodehomepage.png" \
            alt="StaticQuasar931 homepage QR code" \
-           style="display:block;width:160px;height:160px;object-fit:contain;border-radius:10px;">\
+           style="display:block;width:200px;height:200px;object-fit:contain;border-radius:12px;">\
     </a>\
+    <div class="sq-skip-container">\
+      <button class="sq-skip-btn" type="button">Skip ad</button>\
+    </div>\
   </div>\
 </div>',
-        [2, new Promise((function(t) {
-          window.setTimeout((function() {
-            e.requestInProgress = !1,
-              e.hideOverlay(),
-              t()
-          }), 60000)
-        }))]
+        [2, new Promise((function(resolve) {
+          var skipContainer = e.overlay.querySelector(".sq-skip-container");
+          var skipBtn = e.overlay.querySelector(".sq-skip-btn");
+          var pulseInterval = null;
+
+          // Show skip button after 2 seconds with fade in
+          window.setTimeout(function() {
+            if (!skipContainer) return;
+            skipContainer.classList.add("sq-visible");
+
+            // Pulse every 10 seconds (non stacking, capped by keyframes)
+            pulseInterval = window.setInterval(function() {
+              if (!skipContainer) return;
+              skipContainer.classList.add("sq-pulse");
+              window.setTimeout(function() {
+                skipContainer && skipContainer.classList.remove("sq-pulse");
+              }, 650);
+            }, 10000);
+          }, 2000);
+
+          // Skip button closes the ad and resolves the promise
+          skipBtn && skipBtn.addEventListener("click", function() {
+            if (pulseInterval) {
+              window.clearInterval(pulseInterval);
+            }
+            e.requestInProgress = !1;
+            e.hideOverlay();
+            resolve();
+          });
+        }))]]
     }))
   }))
 },
