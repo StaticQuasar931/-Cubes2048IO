@@ -7878,31 +7878,41 @@
                   }))
                 }))
               },
-              t.prototype.hasAdblock = function(t) {
-                return (0,
-                  a.callbackWrapper)((function() {
-                  return Promise.resolve(!1)
-                }), t)
-              },
               t.prototype.renderFakeAd = function(t) {
-                return r(this, void 0, void 0, (function() {
-                  var e = this;
-                  return i(this, (function(n) {
-                    return u.default.log("requesting " + t + " ad"),
-                      this.requestInProgress = !0,
-                      this.showOverlay(),
-                      // this.overlay.innerHTML = "<h1>A " + t + " ad would appear here</h1>",
-                      this.overlay.innerHTML = "<h1>https://sites.google.com/view/staticquasar931/gm3z</h1>",
-                      [2, new Promise((function(t) {
-                        window.setTimeout((function() {
-                          e.requestInProgress = !1,
-                            e.hideOverlay(),
-                            t()
-                        }), 1000)
-                      }))]
-                  }))
-                }))
-              },
+  return r(this, void 0, void 0, (function() {
+    var e = this;
+    return i(this, (function(n) {
+      return u.default.log("requesting " + t + " ad"),
+        this.requestInProgress = !0,
+        this.showOverlay(),
+        this.overlay.innerHTML = '\
+<div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;">\
+  <div style="text-align:center;font-family:system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;background:rgba(0,0,0,0.8);color:#ffffff;padding:20px 24px;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,0.45);max-width:420px;width:100%;box-sizing:border-box;">\
+    <div style="font-size:22px;font-weight:700;margin-bottom:6px;">StaticQuasar931 Unblocked Games</div>\
+    <div style="font-size:14px;opacity:0.85;margin-bottom:12px;">Check out more games on the main StaticQuasar931 list</div>\
+    <a href="https://sites.google.com/view/staticquasar931/gm3z" target="_blank" rel="noopener noreferrer" \
+       style="display:inline-block;font-size:14px;color:#4fd1ff;text-decoration:underline;word-break:break-all;margin-bottom:18px;">\
+      https://sites.google.com/view/staticquasar931/gm3z\
+    </a>\
+    <div style="font-size:13px;opacity:0.9;margin-bottom:8px;">Or scan or click this QR code</div>\
+    <a href="https://sites.google.com/view/staticquasar931" target="_blank" rel="noopener noreferrer" \
+       style="display:inline-block;padding:8px;border-radius:14px;background:#ffffff;">\
+      <img src="https://cdn.jsdelivr.net/gh/StaticQuasar931/Images@main/staticquasar931qrcodehomepage.png" \
+           alt="StaticQuasar931 homepage QR code" \
+           style="display:block;width:160px;height:160px;object-fit:contain;border-radius:10px;">\
+    </a>\
+  </div>\
+</div>',
+        [2, new Promise((function(t) {
+          window.setTimeout((function() {
+            e.requestInProgress = !1,
+              e.hideOverlay(),
+              t()
+          }), 1000)
+        }))]
+    }))
+  }))
+},
               t.prototype.showOverlay = function() {
                 this.overlay.style.display = "flex"
               },
