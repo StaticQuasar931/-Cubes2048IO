@@ -7908,7 +7908,7 @@
             e.requestInProgress = !1,
               e.hideOverlay(),
               t()
-          }), 10000)
+          }), 30000)
         }))]
     }))
   }))
