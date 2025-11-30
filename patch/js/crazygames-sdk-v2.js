@@ -7844,69 +7844,59 @@
           };
         Object.defineProperty(e, "__esModule", {
           value: !0
-        });
-        var u = o(n(71)),
+        });        var u = o(n(71)),
           a = n(823),
           s = function() {
-function t() {
-  this.requestInProgress = !1,
-    this.overlay = null,
-    this.hasSeenAd = !1
-}
+            function t() {
+              this.requestInProgress = !1;
+              this.overlay = null;
+              this.hasSeenAd = !1; // track first ad vs later ads
+            }
 
-            var u = o(n(71)),
-    a = n(823),
-    s = function () {
-        function t() {
-            this.requestInProgress = !1;
-            this.overlay = null;
-            this.hasSeenAd = !1;  // NEW FLAG
-        }
+            t.prototype.init = function() {
+              this.overlay = document.createElement("div");
+              this.overlay.id = "local-overlay";
+              this.createOverlayStyle();
+              document.body.appendChild(this.overlay);
+            };
 
-        t.prototype.init = function () {
-            this.overlay = document.createElement("div");
-            this.overlay.id = "local-overlay";
-            this.createOverlayStyle();
-            document.body.appendChild(this.overlay);
-        };
-
-        t.prototype.requestAd = function(t, e) {
-            return r(this, void 0, void 0, (function() {
+            t.prototype.requestAd = function(t, e) {
+              return r(this, void 0, void 0, (function() {
                 return i(this, (function(n) {
-                    switch (n.label) {
-                        case 0:
-                            return this.requestInProgress
-                                ? (
-                                    (null == e ? void 0 : e.adError)
-                                        ? (0, a.wrapUserFn)(e.adError)("An ad request is already in progress")
-                                        : (null == e ? void 0 : e.adFinished) && (0, a.wrapUserFn)(e.adFinished)(),
-                                    [2]
-                                  )
-                                : (
-                                    (null == e ? void 0 : e.adStarted) && (0, a.wrapUserFn)(e.adStarted)(),
-                                    [4, this.renderFakeAd(t)]
-                                  );
-                        case 1:
-                            return (
-                                n.sent(),
-                                (null == e ? void 0 : e.adFinished) && (0, a.wrapUserFn)(e.adFinished)(),
-                                [2]
-                            );
-                    }
+                  switch (n.label) {
+                    case 0:
+                      return this.requestInProgress
+                        ? (
+                            (null == e ? void 0 : e.adError)
+                              ? (0, a.wrapUserFn)(e.adError)("An ad request is already in progress")
+                              : (null == e ? void 0 : e.adFinished) && (0, a.wrapUserFn)(e.adFinished)(),
+                            [2]
+                          )
+                        : (
+                            (null == e ? void 0 : e.adStarted) && (0, a.wrapUserFn)(e.adStarted)(),
+                            [4, this.renderFakeAd(t)]
+                          );
+                    case 1:
+                      return (
+                        n.sent(),
+                        (null == e ? void 0 : e.adFinished) && (0, a.wrapUserFn)(e.adFinished)(),
+                        [2]
+                      );
+                  }
                 }));
-            }));
-        };
+              }));
+            };
 
-        t.prototype.renderFakeAd = function(t) {
-            return r(this, void 0, void 0, (function() {
+            t.prototype.renderFakeAd = function(t) {
+              return r(this, void 0, void 0, (function() {
                 var e = this;
                 return i(this, (function() {
-                    return (
-                        u.default.log("requesting " + t + " ad"),
-                        this.requestInProgress = !0,
-                        this.showOverlay(),
-                        this.overlay && (this.overlay.innerHTML =
-                            '\
+                  return (
+                    u.default.log("requesting " + t + " ad"),
+                    this.requestInProgress = !0,
+                    this.showOverlay(),
+                    this.overlay && (this.overlay.innerHTML =
+                      '\
 <style>\
 @keyframes sqFadeIn { from { opacity:0; transform:translateY(6px);} to {opacity:1; transform:translateY(0);} }\
 @keyframes sqPulse {0%,100%{transform:scale(1);}50%{transform:scale(1.12);} }\
@@ -7931,85 +7921,85 @@ function t() {
     <div class="sq-skip-container"><button class="sq-skip-btn" disabled>Skip ad</button></div>\
   </div>\
 </div>'),
-                        [
-                            2,
-                            new Promise(function(resolve) {
-                                var overlayEl = e.overlay;
-                                var skipBtn = overlayEl && overlayEl.querySelector(".sq-skip-btn");
-                                var card = overlayEl && overlayEl.querySelector(".sq-ad-card");
-                                var canSkip = !1;
-                                var pulseInterval = null;
+                    [
+                      2,
+                      new Promise((function(resolve) {
+                        var overlayEl = e.overlay;
+                        var skipBtn = overlayEl && overlayEl.querySelector(".sq-skip-btn");
+                        var card = overlayEl && overlayEl.querySelector(".sq-ad-card");
+                        var canSkip = !1;
+                        var pulseInterval = null;
 
-                                // first time: 2s -- after that: 1s
-                                var firstTime = !e.hasSeenAd;
-                                var minDuration = firstTime ? 2000 : 1000;
+                        // first time: 2s, after that: 1s
+                        var firstTime = !e.hasSeenAd;
+                        var minDuration = firstTime ? 2000 : 1000;
 
-                                function finish() {
-                                    if (pulseInterval) {
-                                        clearInterval(pulseInterval);
-                                    }
-                                    e.requestInProgress = !1;
-                                    e.hideOverlay();
-                                    e.hasSeenAd = !0;
-                                    if (overlayEl) {
-                                        overlayEl.onclick = null;
-                                    }
-                                    resolve();
-                                }
+                        function finish() {
+                          if (pulseInterval) {
+                            clearInterval(pulseInterval);
+                          }
+                          e.requestInProgress = !1;
+                          e.hideOverlay();
+                          e.hasSeenAd = !0;
+                          if (overlayEl) {
+                            overlayEl.onclick = null;
+                          }
+                          resolve();
+                        }
 
-                                // enable skip after minDuration
-                                setTimeout(function() {
-                                    canSkip = !0;
-                                    if (skipBtn) {
-                                        skipBtn.disabled = !1;
-                                        skipBtn.classList.add("sq-enabled");
-                                    }
+                        // enable skip after minDuration
+                        setTimeout((function() {
+                          canSkip = !0;
+                          if (skipBtn) {
+                            skipBtn.disabled = !1;
+                            skipBtn.classList.add("sq-enabled");
+                          }
 
-                                    // pulse every 10s while open
-                                    pulseInterval = setInterval(function() {
-                                        if (!skipBtn || !canSkip) return;
-                                        skipBtn.classList.add("sq-pulse");
-                                        setTimeout(function() {
-                                            skipBtn && skipBtn.classList.remove("sq-pulse");
-                                        }, 650);
-                                    }, 10000);
-                                }, minDuration);
+                          // pulse every 10s
+                          pulseInterval = setInterval((function() {
+                            if (!skipBtn || !canSkip) return;
+                            skipBtn.classList.add("sq-pulse");
+                            setTimeout((function() {
+                              skipBtn && skipBtn.classList.remove("sq-pulse");
+                            }), 650);
+                          }), 1e4);
+                        }), minDuration);
 
-                                // click skip button
-                                if (skipBtn) {
-                                    skipBtn.onclick = function() {
-                                        if (!canSkip) return;
-                                        finish();
-                                    };
-                                }
+                        // clicking Skip
+                        if (skipBtn) {
+                          skipBtn.onclick = function() {
+                            if (!canSkip) return;
+                            finish();
+                          };
+                        }
 
-                                // click outside card to close (only when canSkip)
-                                if (overlayEl) {
-                                    overlayEl.onclick = function(evt) {
-                                        if (!canSkip) return;
-                                        if (card && !card.contains(evt.target)) {
-                                            finish();
-                                        }
-                                    };
-                                }
-                            })
-                        ]
-                    );
+                        // clicking outside the card
+                        if (overlayEl) {
+                          overlayEl.onclick = function(evt) {
+                            if (!canSkip) return;
+                            if (card && !card.contains(evt.target)) {
+                              finish();
+                            }
+                          };
+                        }
+                      }))
+                    ]
+                  );
                 }));
-            }));
-        };
+              }));
+            };
 
-        t.prototype.showOverlay = function() {
-            this.overlay.style.display = "flex";
-        };
+            t.prototype.showOverlay = function() {
+              this.overlay.style.display = "flex";
+            };
 
-        t.prototype.hideOverlay = function() {
-            this.overlay.style.display = "none";
-            this.overlay.innerHTML = "";
-        };
+            t.prototype.hideOverlay = function() {
+              this.overlay.style.display = "none";
+              this.overlay.innerHTML = "";
+            };
 
-        t.prototype.createOverlayStyle = function() {
-            var t = {
+            t.prototype.createOverlayStyle = function() {
+              var t = {
                 position: "fixed",
                 display: "none",
                 inset: 0,
@@ -8019,15 +8009,14 @@ function t() {
                 "justify-content": "center",
                 "background-color": "rgba(0,0,0,0.75)",
                 "z-index": "10000"
-            };
-            for (var e in t) {
+              };
+              for (var e in t) {
                 this.overlay.style[e] = t[e];
-            }
-        };
+              }
+            };
 
-        return t;
-    }();
-
+            return t;
+          }();
 
         e.default = s
       },
